@@ -3,7 +3,7 @@ package com.github.edouardswiac.zerotier.api;
 
 
 public class ZTStatus {
-  private boolean online;
+  private Boolean online;
   private String version;
 
   public ZTStatus() {
