@@ -6,12 +6,7 @@ public class ZTStatus {
   private boolean online;
   private String version;
 
-  private ZTStatus() {
-  }
-
-  public ZTStatus(boolean online, String version) {
-    this.online = online;
-    this.version = version;
+  public ZTStatus() {
   }
 
   public boolean isOnline() {
