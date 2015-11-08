@@ -106,7 +106,14 @@ public final class ZTServiceImpl implements ZTService {
             .url(targetUrl)
             .delete()
             .build();
-    execute(request);
+    try {
+      execute(request);
+    } catch (ZTServiceException ex) {
+      // catch the 500 that's returned when deleting :/
+      if (!ex.getCause().getLocalizedMessage().contains("code=500")) {
+        throw ex;
+      }
+    }
   }
 
   @Override
