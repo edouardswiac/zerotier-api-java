@@ -1,7 +1,7 @@
 package com.github.edouardswiac.zerotier.exceptions;
 
 
-public class ZTServiceException extends RuntimeException {
+public final class ZTServiceException extends RuntimeException {
   public ZTServiceException(Throwable cause) {
     super(cause);
   }

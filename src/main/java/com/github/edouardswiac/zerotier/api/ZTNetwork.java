@@ -3,11 +3,15 @@ package com.github.edouardswiac.zerotier.api;
 
 import java.util.Objects;
 
-public class ZTNetwork {
+public final class ZTNetwork {
   private String id;
   private ZTNetworkConfig config;
 
   public ZTNetwork() {}
+  public ZTNetwork(String name) {
+    this.config = new ZTNetworkConfig();
+    this.config.setName(name);
+  }
 
   public String getId() {
     return id;

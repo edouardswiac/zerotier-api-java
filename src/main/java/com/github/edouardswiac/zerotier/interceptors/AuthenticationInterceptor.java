@@ -7,7 +7,7 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
-public class AuthenticationInterceptor implements Interceptor {
+public final class AuthenticationInterceptor implements Interceptor {
   private final String apiAccessToken;
 
   public AuthenticationInterceptor(String apiAccessToken) {

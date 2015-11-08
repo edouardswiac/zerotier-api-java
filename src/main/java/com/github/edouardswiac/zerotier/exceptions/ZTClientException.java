@@ -1,7 +1,7 @@
 package com.github.edouardswiac.zerotier.exceptions;
 
 
-public class ZTClientException extends RuntimeException {
+public final class ZTClientException extends RuntimeException {
   public ZTClientException() {
     super();
   }

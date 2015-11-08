@@ -12,16 +12,17 @@ public interface ZTService {
   String API_VERSION = "0.6";
   String ZT_COM_CENTRAL_URL = "https://my.zerotier.com/api/";
 
-  List<ZTNetwork> getNetworks();
-
-  public void getNetwork();
-  public void updateNetowk();
-  public void deleteNetwork();
-  public void listNetworks();
-
   ZTStatus status();
 
+  void createNetwork(ZTNetwork network);
+  List<ZTNetwork> getNetworks();
+  ZTNetwork getNetwork(String networkId);
+  void updateNetwork(ZTNetwork network);
+  void deleteNetwork(String networkId);
+
+  void createNetworkMember(ZTNetworkMember networkMember);
   Map<String, Integer> getNetworkMembers(String networkId);
-  public void getNetworkMember();
-  public void updateNetworkMember();
+  ZTNetworkMember getNetworkMember(String networkId, String address);
+  void updateNetworkMember(ZTNetworkMember networkMember);
+  void deleteNetworkMember(String networkId, String address);
 }

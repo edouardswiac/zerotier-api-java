@@ -1,8 +1,7 @@
 package com.github.edouardswiac.zerotier.api;
 
 
-
-public class ZTStatus {
+public final class ZTStatus {
   private Boolean online;
   private String version;
 

@@ -15,6 +15,12 @@
     <slf4j.version>1.7.12</slf4j.version>
   </properties>
 
+  <scm>
+    <connection>scm:git:git://github.com/edouardswiac/zerotier-api-java.git</connection>
+    <developerConnection>scm:git:git@github.com:edouardswiac/zerotier-api-java.git</developerConnection>
+    <url>https://github.com/edouardswiac/zerotier-api-java</url>
+  </scm>
+
   <dependencies>
     <dependency>
       <groupId>com.squareup.okhttp</groupId>
@@ -30,6 +36,11 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>1.1.0.Final</version>
     </dependency>
 
 
