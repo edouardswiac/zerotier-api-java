@@ -8,18 +8,22 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import static org.assertj.core.api.Assertions.*;
 
+/**
+ * This is more like an integration test since we hit the prod API endpoint,
+ * but this is the only way to have a meaningful testing harness and not test
+ * gson/okhttp
+ */
 public class ZTServiceIntegrationTest {
   ZTService s;
-  static Random random = new Random();
   static String authToken = System.getenv("ZT_AUTH_TOKEN");
-  static String newNetworkName = "integration testing" + random.nextLong();
-  static String newMemberAddress = Integer.toString(random.nextInt());
+  static String runId = Long.toHexString(System.currentTimeMillis());
+  static String newNetworkName = "zerotierjavaapi" + runId ;
+  static String newMemberAddress = runId.substring(runId.length() - 10);
 
   @BeforeClass
   public static void before() {
@@ -37,12 +41,6 @@ public class ZTServiceIntegrationTest {
     System.out.println(status);
     assertThat(status.isOnline());
     assertThat(status.getVersion()).startsWith(ZTService.API_VERSION);
-  }
-
-  @Test
-  public void testGetNetworks() {
-    List<ZTNetwork> networks = s.getNetworks();
-    System.out.println(networks);
   }
 
   @Test
@@ -76,18 +74,19 @@ public class ZTServiceIntegrationTest {
     boolean oldIsAuth = ztNetworkMember.getConfig().isAuthorized();
     boolean newIsAuth = !oldIsAuth;
 
+    System.out.println("authorizing new member");
     ztNetworkMember.getConfig().setAuthorized(newIsAuth);
     s.updateNetworkMember(ztNetworkMember);
 
     ztNetworkMember = s.getNetworkMember(networkId, newMemberAddress);
-    assertThat(ztNetworkMember.getConfig().isAuthorized()).isEqualTo(newIsAuth).withFailMessage("new member not upated");
+    assertThat(ztNetworkMember.getConfig().isAuthorized()).isEqualTo(newIsAuth).withFailMessage("new member not updated");
 
     ztNetworkMember = s.getNetworkMember(networkId, newMemberAddress);
     ztNetworkMember.getConfig().setAuthorized(oldIsAuth);
     s.updateNetworkMember(ztNetworkMember);
 
     ztNetworkMember = s.getNetworkMember(networkId, newMemberAddress);
-    assertThat(ztNetworkMember.getConfig().isAuthorized()).isEqualTo(oldIsAuth).withFailMessage("new member not upated");;
+    assertThat(ztNetworkMember.getConfig().isAuthorized()).isEqualTo(oldIsAuth).withFailMessage("new member not updated");;
 
     // update network testing this by toggling the name
     ZTNetwork ztNetwork = s.getNetwork(networkId);
