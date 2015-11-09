@@ -2,4 +2,4 @@ language: java
 jdk:
   - oraclejdk8
   - oraclejdk7
-script: mvn verify
+script: mvn verify -Dgpg.skip=true
