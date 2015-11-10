@@ -46,4 +46,4 @@ s.updateNetworkMember(ztNetworkMember);
 ```
 
 ## Testing
-An integration test suite, [`ZTServiceImpl`](src/test/java/com/github/edouardswiac/zerotier/ZTServiceIntegrationTest.java), is available and run by TravisCI to make sure there are no regressions. You need to set the `ZT_AUTH_TOKEN` system property ex: `ZT_AUTH_TOKEN=...token... mvn verify` to run the integration test suite.
+An integration test suite, [`ZTServiceImpl`](src/test/java/com/github/edouardswiac/zerotier/ZTServiceTest.java), is available and run by TravisCI to make sure there are no regressions. You need to set the `ZT_AUTH_TOKEN` system property ex: `ZT_AUTH_TOKEN=...token... mvn verify` to run the integration test suite.

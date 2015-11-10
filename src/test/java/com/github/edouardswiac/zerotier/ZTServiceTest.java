@@ -11,13 +11,14 @@ import org.junit.Test;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assume.*;
 
 /**
  * This is more like an integration test since we hit the prod API endpoint,
  * but this is the only way to have a meaningful testing harness and not test
  * gson/okhttp
  */
-public class ZTServiceIntegrationTest {
+public class ZTServiceTest {
   ZTService s;
   static String authToken = System.getenv("ZT_AUTH_TOKEN");
   static String runId = Long.toHexString(System.currentTimeMillis());
@@ -26,7 +27,7 @@ public class ZTServiceIntegrationTest {
 
   @BeforeClass
   public static void before() {
-    if (authToken == null) fail("an auth token is required to run the integration test suite");
+    assumeTrue("No ZT_AUTH_TOKEN detected, skipping integration tests", authToken != null);
   }
 
   @Before
