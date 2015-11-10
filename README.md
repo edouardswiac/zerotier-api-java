@@ -13,7 +13,7 @@ The library is published to maven central. If you use Maven, you can add a depen
 <dependency>
   <groupId>com.github.edouardswiac</groupId>
   <artifactId>zerotier-api-java</artifactId>
-  <version>0.6.0</version>
+  <version>0.6.2</version>
 </dependency>
 ```
 The library uses [OkHttp](http://square.github.io/okhttp/) for HTTP'ing and [Gson](https://github.com/google/gson) for JSON'ing.
@@ -46,4 +46,4 @@ s.updateNetworkMember(ztNetworkMember);
 ```
 
 ## Testing
-An integration test suite, [`ZTServiceImpl`](src/test/java/com/github/edouardswiac/zerotier/ZTServiceTest.java), is available and run by TravisCI to make sure there are no regressions. You need to set the `ZT_AUTH_TOKEN` system property ex: `ZT_AUTH_TOKEN=...token... mvn verify` to run the integration test suite.
+An integration test suite, [`ZTServiceTest`](src/test/java/com/github/edouardswiac/zerotier/ZTServiceTest.java), is available and run by TravisCI to make sure there are no regressions. You need to set the `ZT_AUTH_TOKEN` system property ex: `ZT_AUTH_TOKEN=...token... mvn verify` to run the integration test suite.
