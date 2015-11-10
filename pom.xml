@@ -4,7 +4,7 @@
 
   <groupId>com.github.edouardswiac</groupId>
   <artifactId>zerotier-api-java</artifactId>
-  <version>0.6.2</version>
+  <version>0.6.3-SNAPSHOT</version>
 
   <properties>
     <!-- use UTF-8 for everything -->
@@ -40,7 +40,7 @@
     <connection>scm:git:git://github.com/edouardswiac/zerotier-api-java.git</connection>
     <developerConnection>scm:git:git@github.com:edouardswiac/zerotier-api-java.git</developerConnection>
     <url>https://github.com/edouardswiac/zerotier-api-java</url>
-    <tag>0.6.2</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
