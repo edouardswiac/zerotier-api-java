@@ -13,7 +13,7 @@ The library is published to maven central. If you use Maven, you can add a depen
 <dependency>
   <groupId>com.github.edouardswiac</groupId>
   <artifactId>zerotier-api-java</artifactId>
-  <version>0.6.0</version>
+  <version>0.6.2</version>
 </dependency>
 ```
 The library uses [OkHttp](http://square.github.io/okhttp/) for HTTP'ing and [Gson](https://github.com/google/gson) for JSON'ing.
