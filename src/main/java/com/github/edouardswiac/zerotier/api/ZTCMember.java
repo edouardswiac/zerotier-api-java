@@ -1,79 +1,123 @@
 package com.github.edouardswiac.zerotier.api;
 
-public class ZTCMember {
-	private String		nwid;
-	private long			clock;
-	private String		address;
-	private boolean		authorized;
-	private boolean		activeBridge;
-	private String		identity;
-	private String[]	ipAssignents;
-	private int				memberRevision;
+import java.util.ArrayList;
+import java.util.List;
 
-	public boolean isAuthorized() {
-		return authorized;
-	}
+public class ZTCMember implements Cloneable {
+  private String				nwid;
+  private long					clock;
+  private String				address;
+  private boolean				authorized;
+  private boolean				activeBridge;
+  private String				identity;
+  private List<String>	ipAssignments;
+  private int						memberRevision;
 
-	public void setAuthorized(boolean authorized) {
-		this.authorized = authorized;
-	}
+  public boolean isAuthorized() {
+    return authorized;
+  }
 
-	public boolean isActiveBridge() {
-		return activeBridge;
-	}
+  public void setAuthorized(boolean authorized) {
+    this.authorized = authorized;
+  }
 
-	public void setActiveBridge(boolean activaBridge) {
-		this.activeBridge = activaBridge;
-	}
+  public boolean isActiveBridge() {
+    return activeBridge;
+  }
 
-	public String[] getIpAssignents() {
-		return ipAssignents;
-	}
+  public void setActiveBridge(boolean activaBridge) {
+    this.activeBridge = activaBridge;
+  }
 
-	public void setIpAssignents(String[] ipAssignents) {
-		this.ipAssignents = ipAssignents;
-	}
+  public List<String> getIpAssignments() {
+    return ipAssignments;
+  }
 
-	public String getNwid() {
-		return nwid;
-	}
+  public void setIpAssignments(List<String> ipAssignments) {
+    this.ipAssignments = ipAssignments;
+  }
 
-	public long getClock() {
-		return clock;
-	}
+  public String getNwid() {
+    return nwid;
+  }
 
-	public String getAddress() {
-		return address;
-	}
+  public long getClock() {
+    return clock;
+  }
 
-	public String getIdentity() {
-		return identity;
-	}
+  public String getAddress() {
+    return address;
+  }
 
-	public int getMemberRevision() {
-		return memberRevision;
-	}
+  public String getIdentity() {
+    return identity;
+  }
 
-	@Override
-	public String toString() {
-		final StringBuffer sb = new StringBuffer("ZTCMember{");
-		sb.append("nwid=").append(nwid);
-		sb.append(", address=='").append(address).append('\'');
-		sb.append(", identity='").append(identity).append('\'');
-		sb.append(", revision='").append(memberRevision).append('\'');
-		if (ipAssignents != null) {
-			sb.append(", assignments=[");
-			boolean first = true;
-			for (String s : ipAssignents) {
-				if (!first)
-					sb.append(", ");
-				else
-					first = false;
-				sb.append('\'').append(s).append('\'');
-			}
-			sb.append(memberRevision).append(']');
-		}
-		sb.append('}');
-		return sb.toString();
-	}
+  public int getMemberRevision() {
+    return memberRevision;
+  }
+
+  @Override
+  public String toString() {
+    final StringBuffer sb = new StringBuffer("ZTCMember{");
+    sb.append("nwid=").append(nwid);
+    sb.append(", address=='").append(address).append('\'');
+    sb.append(", identity='").append(identity).append('\'');
+    sb.append(", revision='").append(memberRevision).append('\'');
+    if (ipAssignments != null) {
+      sb.append(", assignments=[");
+      boolean first = true;
+      for (String s : ipAssignments) {
+        if (!first)
+          sb.append(", ");
+        else
+          first = false;
+        sb.append('\'').append(s).append('\'');
+      }
+      sb.append(memberRevision).append(']');
+    }
+    sb.append('}');
+    return sb.toString();
+  }
+
+  @Override
+  public ZTCMember clone() {
+    ZTCMember m;
+    try {
+      m = (ZTCMember) super.clone();
+      m.ipAssignments = new ArrayList<String>(ipAssignments); // may be changed, deep clone!
+      return m;
+    } catch (CloneNotSupportedException e) {
+      System.err.println(e.getMessage());;
+    }
+    return null;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof ZTCMember))
+      return false;
+    ZTCMember m = (ZTCMember) o;
+    if ((nwid != null && !nwid.equals(m.nwid)) || !(nwid == null && m.nwid == null))
+      return false;
+    if ((address != null && !address.equals(m.address)) || !(address == null && m.address == null))
+      return false;
+    if (authorized != m.authorized)
+      return false;
+    if (activeBridge != m.activeBridge)
+      return false;
+    if ((identity != null && !identity.equals(m.identity)) || !(identity == null && m.identity == null))
+      return false;
+    if (memberRevision != m.memberRevision)
+      return false;
+    if (ipAssignments.size() != m.ipAssignments.size())
+      return false;
+    for (int i=0; i<ipAssignments.size(); i++)
+      if ((ipAssignments.get(i) != null && !ipAssignments.get(i).equals(m.ipAssignments.get(i))) 
+      || !(ipAssignments.get(i) == null && m.ipAssignments.get(i) == null))
+        return false;
+    //clock ??
+
+    return true;
+  }
 }

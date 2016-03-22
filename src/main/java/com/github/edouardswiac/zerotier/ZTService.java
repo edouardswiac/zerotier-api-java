@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ZTService {
-  String API_VERSION = "0.6";
+  String API_VERSION = "0.7";
   String ZT_COM_CENTRAL_URL = "https://my.zerotier.com/api/";
 
   ZTStatus status();
@@ -32,6 +32,8 @@ public interface ZTService {
   void deleteNetworkMember(String networkId, String address);
 
   List<ZTNet> getNets();
+  ZTNet joinNet(String nwid);
+
   ZTController controller();
   List<String> getCNetworks();
   ZTCNetwork getCNetwork(String networkId);

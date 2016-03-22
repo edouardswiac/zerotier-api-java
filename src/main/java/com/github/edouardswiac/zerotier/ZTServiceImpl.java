@@ -189,7 +189,7 @@ public final class ZTServiceImpl implements ZTService {
   }
 
   //=======================================
-  
+
   @Override
   public ZTStatus status() {
     final HttpUrl targetUrl = baseApiUrl.newBuilder().addPathSegment("status").build();
@@ -205,6 +205,19 @@ public final class ZTServiceImpl implements ZTService {
   }
 
   @Override
+  public ZTNet joinNet(String nwid) {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("network")
+        .addPathSegment(nwid)
+        .build();
+    final Request request = new Request.Builder()
+        .url(targetUrl)
+        .post(RequestBody.create(MEDIA_TYPE_JSON, "{}"))
+        .build();
+    return get(request, ZTNet.class);
+  }
+
+  @Override
   public ZTController controller() {
     final HttpUrl targetUrl = baseApiUrl.newBuilder().addPathSegment("controller").build();
     final Request request = new Request.Builder().url(targetUrl).build();
@@ -214,8 +227,8 @@ public final class ZTServiceImpl implements ZTService {
   @Override
   public List<String> getCNetworks() {
     final HttpUrl targetUrl = baseApiUrl.newBuilder()
-    		.addPathSegment("controller")
-    		.addPathSegment("network").build();
+        .addPathSegment("controller")
+        .addPathSegment("network").build();
     final Request request = new Request.Builder().url(targetUrl).build();
     return Arrays.asList(get(request, String[].class));
   }
@@ -223,10 +236,10 @@ public final class ZTServiceImpl implements ZTService {
   @Override
   public ZTCNetwork getCNetwork(@NotNull String networkId) {
     final HttpUrl targetUrl = baseApiUrl.newBuilder()
-    		.addPathSegment("controller")
-    		.addPathSegment("network")
-    		.addPathSegment(networkId)
-    		.build();
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(networkId)
+        .build();
     final Request request = new Request.Builder().url(targetUrl).build();
     return get(request, ZTCNetwork.class);
   }
@@ -237,48 +250,48 @@ public final class ZTServiceImpl implements ZTService {
       throw new IllegalArgumentException("network ID must not be null");
 
     final HttpUrl targetUrl = baseApiUrl.newBuilder()
-    		.addPathSegment("controller")
-    		.addPathSegment("network")
-    		.addPathSegment(network.getNwid())
-    		.build();
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(network.getNwid())
+        .build();
 
     final Request request = new Request.Builder()
-    		.url(targetUrl)
-    		.post(RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(network)))
-    		.build();
+        .url(targetUrl)
+        .post(RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(network)))
+        .build();
     return get(request, ZTCNetwork.class);
   }
 
   @Override
   public void deleteCNetwork(@NotNull String networkId) {
-  	final HttpUrl targetUrl = baseApiUrl.newBuilder()
-  			.addPathSegment("controller")
-  			.addPathSegment("network")
-  			.addPathSegment(networkId)
-  			.build();
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(networkId)
+        .build();
 
-  	final Request request = new Request.Builder()
-  			.url(targetUrl)
-  			.delete()
-  			.build();
-  	try {
-  		execute(request);
-  	} catch (ZTServiceException ex) {
-  		// catch the 500 that's returned when deleting :/
-  		if (!ex.getCause().getLocalizedMessage().contains("code=500")) {
-  			throw ex;
-  		}
-  	}
+    final Request request = new Request.Builder()
+        .url(targetUrl)
+        .delete()
+        .build();
+    try {
+      execute(request);
+    } catch (ZTServiceException ex) {
+      // catch the 500 that's returned when deleting :/
+      if (!ex.getCause().getLocalizedMessage().contains("code=500")) {
+        throw ex;
+      }
+    }
   }
 
   @Override
   public Map<String, Integer> getCMembers(@NotNull String networkId) {
     final HttpUrl targetUrl = baseApiUrl.newBuilder()
-    		.addPathSegment("controller")
-    		.addPathSegment("network")
-    		.addPathSegment(networkId)
-    		.addPathSegment("member")
-    		.build();
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(networkId)
+        .addPathSegment("member")
+        .build();
     final Type entityType = new TypeToken<HashMap<String, Integer>>(){}.getType();
     final Request request = new Request.Builder().url(targetUrl).build();
     final Map<String, Integer> membersWithVersion = get(request, entityType);
@@ -288,12 +301,12 @@ public final class ZTServiceImpl implements ZTService {
   @Override
   public ZTCMember getCMember(@NotNull String networkId, @NotNull String memberId) {
     final HttpUrl targetUrl = baseApiUrl.newBuilder()
-    		.addPathSegment("controller")
-    		.addPathSegment("network")
-    		.addPathSegment(networkId)
-    		.addPathSegment("member")
-    		.addPathSegment(memberId)
-    		.build();
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(networkId)
+        .addPathSegment("member")
+        .addPathSegment(memberId)
+        .build();
     final Request request = new Request.Builder().url(targetUrl).build();
     return get(request, ZTCMember.class);
   }
@@ -306,17 +319,17 @@ public final class ZTServiceImpl implements ZTService {
       throw new IllegalArgumentException("address must not be null");
 
     final HttpUrl targetUrl = baseApiUrl.newBuilder()
-    		.addPathSegment("controller")
-    		.addPathSegment("network")
-    		.addPathSegment(member.getNwid())
-    		.addPathSegment("member")
-    		.addPathSegment(member.getAddress())
-    		.build();
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(member.getNwid())
+        .addPathSegment("member")
+        .addPathSegment(member.getAddress())
+        .build();
 
     final Request request = new Request.Builder()
-    		.url(targetUrl)
-    		.post(RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(member)))
-    		.build();
+        .url(targetUrl)
+        .post(RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(member)))
+        .build();
     return get(request, ZTCMember.class);
   }
 
@@ -331,30 +344,30 @@ public final class ZTServiceImpl implements ZTService {
   @Override
   public void deleteCMember(@NotNull String networkId, @NotNull String memberId) {
     final HttpUrl targetUrl = baseApiUrl.newBuilder()
-    		.addPathSegment("controller")
-    		.addPathSegment("network")
-    		.addPathSegment(networkId)
-    		.addPathSegment("member")
-    		.addPathSegment(memberId)
-    		.build();
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(networkId)
+        .addPathSegment("member")
+        .addPathSegment(memberId)
+        .build();
 
-  	final Request request = new Request.Builder()
-  			.url(targetUrl)
-  			.delete()
-  			.build();
-  	try {
-  		execute(request);
-  	} catch (ZTServiceException ex) {
-  		// catch the 500 that's returned when deleting :/
-  		if (!ex.getCause().getLocalizedMessage().contains("code=500")) {
-  			throw ex;
-  		}
-  	}
+    final Request request = new Request.Builder()
+        .url(targetUrl)
+        .delete()
+        .build();
+    try {
+      execute(request);
+    } catch (ZTServiceException ex) {
+      // catch the 500 that's returned when deleting :/
+      if (!ex.getCause().getLocalizedMessage().contains("code=500")) {
+        throw ex;
+      }
+    }
   }
 
 
   //=======================================
-  
+
   Response execute(Request request) {
     try {
       final Response response = client.newCall(request).execute();

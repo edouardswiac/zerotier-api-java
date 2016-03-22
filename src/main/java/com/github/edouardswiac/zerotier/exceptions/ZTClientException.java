@@ -2,6 +2,8 @@ package com.github.edouardswiac.zerotier.exceptions;
 
 
 public final class ZTClientException extends RuntimeException {
+  private static final long serialVersionUID = 1L;
+
   public ZTClientException() {
     super();
   }
