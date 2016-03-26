@@ -1,22 +1,22 @@
 package com.github.edouardswiac.zerotier.api;
 
 public final class ZTCRule {
-  int ruleNo;
-  String nodeId;
-  String sourcePort;
-  String destPort;
-  int vlanId;
-  int vlanPcp;
-  int etherType;
-  String macSource;
-  String macDest;
-  String ipSource;
-  String ipDest;
-  int ipTos;
-  int ipProtocol;
-  int ipSourcePort;
-  int ipDestPort;
-  String action;
+  private int ruleNo;
+  private String nodeId;
+  private String sourcePort;
+  private String destPort;
+  private int vlanId;
+  private int vlanPcp;
+  private int etherType;
+  private String macSource;
+  private String macDest;
+  private String ipSource;
+  private String ipDest;
+  private int ipTos;
+  private int ipProtocol;
+  private int ipSourcePort;
+  private int ipDestPort;
+  private String action;
 
   public int getRuleNo() {
     return ruleNo;

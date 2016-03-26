@@ -23,7 +23,7 @@ public final class ZTCNetwork implements Cloneable {
   private int                                  authorizedMemberCount;
   protected List<ZTCRelay>                     relays;
   protected List<String>                       ipLocalRoutes;
-  protected List<ZTCAssignmet>                 ipAssignmentPools;
+  protected List<ZTCAssignment>                 ipAssignmentPools;
   protected List<ZTCRule>                      rules;
 
   private String                               controllerInstanceId;
@@ -133,11 +133,11 @@ public final class ZTCNetwork implements Cloneable {
     this.ipLocalRoutes = ipLocalRoutes;
   }
 
-  public List<ZTCAssignmet> getIpAssignmentPools() {
+  public List<ZTCAssignment> getIpAssignmentPools() {
     return ipAssignmentPools;
   }
 
-  public void setIpAssignmentPools(List<ZTCAssignmet> ipAssignmentPools) {
+  public void setIpAssignmentPools(List<ZTCAssignment> ipAssignmentPools) {
     this.ipAssignmentPools = ipAssignmentPools;
   }
 

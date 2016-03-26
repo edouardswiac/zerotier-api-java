@@ -5,7 +5,6 @@ import com.github.edouardswiac.zerotier.api.ZTNetwork;
 import com.github.edouardswiac.zerotier.api.ZTNetworkMember;
 import com.github.edouardswiac.zerotier.api.ZTStatus;
 
-import com.github.edouardswiac.zerotier.api.ZTNet;
 import com.github.edouardswiac.zerotier.api.ZTController;
 import com.github.edouardswiac.zerotier.api.ZTCNetwork;
 import com.github.edouardswiac.zerotier.api.ZTCMember;
@@ -31,8 +30,8 @@ public interface ZTService {
   void updateNetworkMember(ZTNetworkMember networkMember);
   void deleteNetworkMember(String networkId, String address);
 
-  List<ZTNet> getNets();
-  ZTNet joinNet(String nwid);
+  List<ZTNetwork> getNets();
+  ZTNetwork joinNet(String nwid);
 
   ZTController controller();
   List<String> getCNetworks();

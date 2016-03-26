@@ -1,6 +1,6 @@
 package com.github.edouardswiac.zerotier.api;
 
-public final class ZTCAssignmet {
+public final class ZTCAssignment {
   String ipRangeStart;
   String ipRangeEnd;
 

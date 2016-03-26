@@ -8,7 +8,6 @@ import okio.Buffer;
 import org.slf4j.Logger;
 
 import java.io.IOException;
-//import java.util.Arrays;
 
 public final class LoggingInterceptor implements Interceptor {
   public final Logger log;

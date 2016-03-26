@@ -54,7 +54,7 @@ public class ZTServiceTest {
       }
     }
     assertThat(network).isNotNull().withFailMessage("network was not created");
-    String networkId = network.getId();
+    String networkId = network.getNwid();
 
     // network has no members yet
     Map<String, Integer> membersWithRevisions = s.getNetworkMembers(networkId);
@@ -116,7 +116,7 @@ public class ZTServiceTest {
     s.deleteNetworkMember(networkId, newMemberAddress);
 
     // delete network
-    s.deleteNetwork(network.getId());
+    s.deleteNetwork(network.getNwid());
   }
 
 }

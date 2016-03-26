@@ -4,7 +4,6 @@ package com.github.edouardswiac.zerotier;
 import com.github.edouardswiac.zerotier.api.ZTCMember;
 import com.github.edouardswiac.zerotier.api.ZTCNetwork;
 import com.github.edouardswiac.zerotier.api.ZTController;
-import com.github.edouardswiac.zerotier.api.ZTNet;
 import com.github.edouardswiac.zerotier.api.ZTNetwork;
 import com.github.edouardswiac.zerotier.api.ZTNetworkMember;
 import com.github.edouardswiac.zerotier.api.ZTStatus;
@@ -84,12 +83,12 @@ public final class ZTServiceImpl implements ZTService {
 
   @Override
   public void updateNetwork(@NotNull ZTNetwork network) {
-    if (network.getId() == null)
+    if (network.getNwid() == null)
       throw new IllegalArgumentException("network ID must not be null");
 
     final HttpUrl targetUrl = baseApiUrl.newBuilder()
             .addPathSegment("network")
-            .addPathSegment(network.getId())
+            .addPathSegment(network.getNwid())
             .build();
 
     final Request request = new Request.Builder()
@@ -198,14 +197,14 @@ public final class ZTServiceImpl implements ZTService {
   }
 
   @Override
-  public List<ZTNet> getNets() {
+  public List<ZTNetwork> getNets() {
     final HttpUrl targetUrl = baseApiUrl.newBuilder().addPathSegment("network").build();
     final Request request = new Request.Builder().url(targetUrl).build();
-    return Arrays.asList(get(request, ZTNet[].class));
+    return Arrays.asList(get(request, ZTNetwork[].class));
   }
 
   @Override
-  public ZTNet joinNet(String nwid) {
+  public ZTNetwork joinNet(String nwid) {
     final HttpUrl targetUrl = baseApiUrl.newBuilder()
         .addPathSegment("network")
         .addPathSegment(nwid)
@@ -214,7 +213,7 @@ public final class ZTServiceImpl implements ZTService {
         .url(targetUrl)
         .post(RequestBody.create(MEDIA_TYPE_JSON, "{}"))
         .build();
-    return get(request, ZTNet.class);
+    return get(request, ZTNetwork.class);
   }
 
   @Override
