@@ -23,6 +23,7 @@ public final class AuthenticationInterceptor implements Interceptor {
 
     Request requestWithUserAgent = originalRequest.newBuilder()
         .addHeader("Authorization", String.format("Bearer %s", apiAccessToken))
+        .addHeader("X-ZT1-Auth", apiAccessToken)
         .build();
     return chain.proceed(requestWithUserAgent);
   }

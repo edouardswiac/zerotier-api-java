@@ -1,6 +1,9 @@
 package com.github.edouardswiac.zerotier;
 
 
+import com.github.edouardswiac.zerotier.api.ZTCMember;
+import com.github.edouardswiac.zerotier.api.ZTCNetwork;
+import com.github.edouardswiac.zerotier.api.ZTController;
 import com.github.edouardswiac.zerotier.api.ZTNetwork;
 import com.github.edouardswiac.zerotier.api.ZTNetworkMember;
 import com.github.edouardswiac.zerotier.api.ZTStatus;
@@ -80,12 +83,12 @@ public final class ZTServiceImpl implements ZTService {
 
   @Override
   public void updateNetwork(@NotNull ZTNetwork network) {
-    if (network.getId() == null)
+    if (network.getNwid() == null)
       throw new IllegalArgumentException("network ID must not be null");
 
     final HttpUrl targetUrl = baseApiUrl.newBuilder()
             .addPathSegment("network")
-            .addPathSegment(network.getId())
+            .addPathSegment(network.getNwid())
             .build();
 
     final Request request = new Request.Builder()
@@ -114,13 +117,6 @@ public final class ZTServiceImpl implements ZTService {
         throw ex;
       }
     }
-  }
-
-  @Override
-  public ZTStatus status() {
-    final HttpUrl targetUrl = baseApiUrl.newBuilder().addPathSegment("status").build();
-    final Request request = new Request.Builder().url(targetUrl).build();
-    return get(request, ZTStatus.class);
   }
 
   @Override
@@ -190,6 +186,186 @@ public final class ZTServiceImpl implements ZTService {
             .build();
     execute(request);
   }
+
+  //=======================================
+
+  @Override
+  public ZTStatus status() {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder().addPathSegment("status").build();
+    final Request request = new Request.Builder().url(targetUrl).build();
+    return get(request, ZTStatus.class);
+  }
+
+  @Override
+  public List<ZTNetwork> getNets() {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder().addPathSegment("network").build();
+    final Request request = new Request.Builder().url(targetUrl).build();
+    return Arrays.asList(get(request, ZTNetwork[].class));
+  }
+
+  @Override
+  public ZTNetwork joinNet(String nwid) {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("network")
+        .addPathSegment(nwid)
+        .build();
+    final Request request = new Request.Builder()
+        .url(targetUrl)
+        .post(RequestBody.create(MEDIA_TYPE_JSON, "{}"))
+        .build();
+    return get(request, ZTNetwork.class);
+  }
+
+  @Override
+  public ZTController controller() {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder().addPathSegment("controller").build();
+    final Request request = new Request.Builder().url(targetUrl).build();
+    return get(request, ZTController.class);
+  }
+
+  @Override
+  public List<String> getCNetworks() {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("controller")
+        .addPathSegment("network").build();
+    final Request request = new Request.Builder().url(targetUrl).build();
+    return Arrays.asList(get(request, String[].class));
+  }
+
+  @Override
+  public ZTCNetwork getCNetwork(@NotNull String networkId) {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(networkId)
+        .build();
+    final Request request = new Request.Builder().url(targetUrl).build();
+    return get(request, ZTCNetwork.class);
+  }
+
+  @Override
+  public ZTCNetwork updateCNetwork(@NotNull ZTCNetwork network) {
+    if (network.getNwid() == null)
+      throw new IllegalArgumentException("network ID must not be null");
+
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(network.getNwid())
+        .build();
+
+    final Request request = new Request.Builder()
+        .url(targetUrl)
+        .post(RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(network)))
+        .build();
+    return get(request, ZTCNetwork.class);
+  }
+
+  @Override
+  public void deleteCNetwork(@NotNull String networkId) {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(networkId)
+        .build();
+
+    final Request request = new Request.Builder()
+        .url(targetUrl)
+        .delete()
+        .build();
+    try {
+      execute(request);
+    } catch (ZTServiceException ex) {
+      // catch the 500 that's returned when deleting :/
+      if (!ex.getCause().getLocalizedMessage().contains("code=500")) {
+        throw ex;
+      }
+    }
+  }
+
+  @Override
+  public Map<String, Integer> getCMembers(@NotNull String networkId) {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(networkId)
+        .addPathSegment("member")
+        .build();
+    final Type entityType = new TypeToken<HashMap<String, Integer>>(){}.getType();
+    final Request request = new Request.Builder().url(targetUrl).build();
+    final Map<String, Integer> membersWithVersion = get(request, entityType);
+    return Collections.unmodifiableMap(membersWithVersion);
+  }
+
+  @Override
+  public ZTCMember getCMember(@NotNull String networkId, @NotNull String memberId) {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(networkId)
+        .addPathSegment("member")
+        .addPathSegment(memberId)
+        .build();
+    final Request request = new Request.Builder().url(targetUrl).build();
+    return get(request, ZTCMember.class);
+  }
+
+  @Override
+  public ZTCMember updateCMember(@NotNull ZTCMember member) {
+    if (member.getNwid() == null)
+      throw new IllegalArgumentException("network ID must not be null");
+    if (member.getAddress() == null)
+      throw new IllegalArgumentException("address must not be null");
+
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(member.getNwid())
+        .addPathSegment("member")
+        .addPathSegment(member.getAddress())
+        .build();
+
+    final Request request = new Request.Builder()
+        .url(targetUrl)
+        .post(RequestBody.create(MEDIA_TYPE_JSON, gson.toJson(member)))
+        .build();
+    return get(request, ZTCMember.class);
+  }
+
+  @Override
+  public void deleteCMember(@NotNull ZTCMember member) {
+    if (member.getNwid() == null)
+      throw new IllegalArgumentException("network ID must not be null");
+    if (member.getAddress() == null)
+      throw new IllegalArgumentException("address must not be null");
+    deleteCMember(member.getNwid(), member.getAddress());
+  }
+  @Override
+  public void deleteCMember(@NotNull String networkId, @NotNull String memberId) {
+    final HttpUrl targetUrl = baseApiUrl.newBuilder()
+        .addPathSegment("controller")
+        .addPathSegment("network")
+        .addPathSegment(networkId)
+        .addPathSegment("member")
+        .addPathSegment(memberId)
+        .build();
+
+    final Request request = new Request.Builder()
+        .url(targetUrl)
+        .delete()
+        .build();
+    try {
+      execute(request);
+    } catch (ZTServiceException ex) {
+      // catch the 500 that's returned when deleting :/
+      if (!ex.getCause().getLocalizedMessage().contains("code=500")) {
+        throw ex;
+      }
+    }
+  }
+
+
+  //=======================================
 
   Response execute(Request request) {
     try {
